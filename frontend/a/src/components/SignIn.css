@@ -1,0 +1,49 @@
+
+.signInContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color:rgb(rgb(165, 158, 158), green, blue);
+  }
+  
+  .signInForm {
+    background-color: whitesmoke;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    width: 80%;
+    max-width: 400px;
+  }
+  
+  .signInForm h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .signInForm input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+  }
+  
+  .signInForm button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .message{
+        color:red;
+  }
+  .mid{
+    text-decoration: none;
+    margin:auto;
+    
+  }
