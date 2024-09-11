@@ -3,15 +3,15 @@ import React, { useEffect, useState } from 'react';
 const EventList = () => {
   const [events, setEvents] = useState([]);
 
-  useEffect(() => {
-    fetch('/api/events')
+  useEffect(async () => {
+    await fetch('http://localhost:8000/events/register-event')
       .then((response) => response.json())
       .then((data) => setEvents(data));
   }, []);
 
   const registerForEvent = (eventId) => {
     const token = localStorage.getItem('authToken');
-    fetch(`/api/register-event/${eventId}`, {
+    fetch(`/register-event/${eventId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`, // Pass token in Authorization header
