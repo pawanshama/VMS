@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 const EventList = () => {
   const [events, setEvents] = useState([]);
 
-  useEffect(async () => {
-    await fetch('http://localhost:8000/events/register-event')
-      .then((response) => response.json())
-      .then((data) => setEvents(data));
-  }, []);
+  // useEffect(async () => {
+  //   await fetch('http://localhost:8000/events/register-event')
+  //     .then((response) => response.json())
+  //     .then((data) => setEvents(data));
+  // }, []);
 
   const registerForEvent = (eventId) => {
     const token = localStorage.getItem('authToken');

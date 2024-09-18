@@ -2,6 +2,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const volunteerRoutes = require('./routes/volunteers');
+const staffRoutes = require('./routes/staff');
+const leadRoutes = require('./routes/lead');
 const cors = require('cors');
 
 
@@ -31,18 +33,8 @@ mongoose.connect(mongoURI,{useNewUrlParser: true ,useUnifiedTopology: true})
 // Routes
 app.use('/register', volunteerRoutes);
 app.use('/events', eventRoutes);
-
-// app.post('/register', async (req, res) => {
-//   try {
-//     const { name, email, password } = req.body;
-//     console.log(req.body);
-//     const newVolunteer = await new volunteerRoutes({ name, email, password});
-//     await newVolunteer.save();
-//     res.json({ success: true, message: 'Volunteer registered successfully' });
-//   } catch (error) {
-//     res.status(400).json({ success: false, message: 'Error registering volunteer' });
-//   }
-// });
+app.use('/Staff', staffRoutes);
+app.use('/Lead', leadRoutes);
 
 
 app.listen(8000, () => {

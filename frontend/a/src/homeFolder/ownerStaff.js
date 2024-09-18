@@ -16,7 +16,7 @@ const OwnerStaff = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8000/register/login/${name}`, {
+      const response = await fetch(`http://localhost:8000/dashBoard/${name}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
@@ -28,7 +28,7 @@ const OwnerStaff = (props) => {
         localStorage.setItem('authToken', data.token);
         setMessage('Login successful. You can now register for events.');
         setTimeout(() => {
-            navigate(`/dashBoard/${name}`);
+            navigate(`/dashBoard/${name}/SignUp/page`);
         }, 2000);
       } else {
         setMessage('Invalid email or password.');
