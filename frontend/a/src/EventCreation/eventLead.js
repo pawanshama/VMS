@@ -80,10 +80,10 @@ const EventLead = () => {
                       {user.Branch === 'Branch' && <div>
                         <label htmlFor="country" >Branch</label>
                         <select id="country" name="Branch" value={volunteer.Branch} onChange={handlePush}>
-                          <option >USA</option>
-                          <option >Canada</option>
-                          <option >India</option>
-                          <option >UK</option>
+                          <option> USA</option>
+                          <option> Canada</option>
+                          <option> India</option>
+                          <option> UK</option>
                         </select><br  />
                       </div>}
 

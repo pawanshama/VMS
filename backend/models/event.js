@@ -1,8 +1,20 @@
 const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
-  name: String,
-  date: Date,
+  eventLead: String,
+  eventName: String,
+   venue: String,
+   award:String,
+   maxMember:String,
+   age:String,
+   endOfDate:String,
+   aboutEvent:String,
+   phone:String,
+   contactTime:String,
+   gender:String,
+   Branch:String,
+   experience:String,
+   eventDate:String,
   volunteers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Volunteer' }],
 });
 

@@ -27,9 +27,6 @@ mongoose.connect(mongoURI,{useNewUrlParser: true ,useUnifiedTopology: true})
 .then(() => console.log('MongoDB connected successfully'))
 .catch((err) => console.error('MongoDB connection error:', err));
 
-// const user = require('./models/volunteer');
-
-
 // Routes
 app.use('/register', volunteerRoutes);
 app.use('/events', eventRoutes);
