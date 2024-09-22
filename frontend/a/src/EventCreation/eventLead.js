@@ -3,7 +3,7 @@ import React,{useState} from 'react'
 
 const EventLead = () => {
     const [user,setUser] = useState({Gender:'',Branch:'',Experience:'', EventDate:''});
-    const [volunteer, setVolunteer] = useState({ eventLead: '', eventName: '', venue: '',award:'',maxMember:'',age:'',endOfDate:'',aboutEvent:'',phone:'',contactTime:'',gender:'',Branch:'',experience:'',eventDate:'' });
+    const [volunteer, setVolunteer] = useState({ eventLead: '', eventName: '', venue: '',award:'',maxMember:'',age:'',endOfDate:'',aboutEvent:'',phone:'',contactTime:'',gender:'',Branch:'',experience:'',eventDate:'',eventTime:'', });
     // const [message, setMessage] = useState('');
     const handleClick = (e)=>{
         setUser((predata)=>({...predata,[e.target.name] : e.target.name}));
@@ -13,7 +13,13 @@ const EventLead = () => {
         setVolunteer((predata)=>({...predata,[e.target.name] : e.target.value}));
     }
     const handleSubmit = (e)=>{
+
       e.preventDefault();
+      volunteer.eventTime = new Date();
+      if(volunteer.eventTime !==''){
+         volunteer.filter((predata)=> {return predata   !== 'eventTime';})
+      }
+      setVolunteer((predata)=>({...predata,[volunteer.eventTime]:`${volunteer.eventTime}`}));
       console.log(volunteer);
     }
   return (
