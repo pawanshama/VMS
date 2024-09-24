@@ -5,13 +5,12 @@ const eventSchema = new mongoose.Schema({
   eventName: String,
   venue: String,
   award:String,
-  maxMember:String,
-  age:String,
+  maxMember:Number,
+  age:Number,
   endOfDate:Date,
   aboutEvent:String,
-  phone:String,
+  phone:Number,
   contactTime:String,
-  gender:String,
   Branch:String,
   experience:String,
   eventDate:Date,
@@ -21,5 +20,4 @@ const eventSchema = new mongoose.Schema({
 });
 
 const Event = mongoose.model('Event', eventSchema);
-
 module.exports = Event;

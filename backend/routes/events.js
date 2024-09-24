@@ -6,11 +6,13 @@ const router = express.Router();
 const { authenticateToken } = require('./volunteers');
 
 
-router.post('/register-event', async (req, res) => {
-  const { name, date , volunteers} = req.body;
+router.post('/register-event',authenticateToken, async (req, res) => {
+  // const { eventLead, eventName, venue,award,maxMember,age,endOfDate,aboutEvent,phone,contactTime,Branch,experience,eventDate,eventTime} = req.body;
   
   try {
-    const newEvent =await new Event({ name, date,volunteers });
+
+     const { eventLead, eventName, venue,award,maxMember,age,endOfDate,aboutEvent,phone,contactTime,Branch,experience,eventDate,eventTime } = req.body;
+    const newEvent = await new Event({ eventLead, eventName, venue,award,maxMember,age,endOfDate,aboutEvent,phone,contactTime,Branch,experience,eventDate,eventTime });
     await newEvent.save();
     res.status(201).json({ success: true, message: 'Event created', event: newEvent });
   } catch (error) {
@@ -27,8 +29,6 @@ router.get('/findAll', async (req,res) => {
     res.status(500).json({ success: false, message: 'Error fetching events', error });
   }
 });
-
-
 module.exports = router;
 
 

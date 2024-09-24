@@ -1,32 +1,50 @@
 import React,{useState} from 'react'
-// import axios from 'axios';
+import axios from 'axios';
 
 const EventLead = () => {
-    const [user,setUser] = useState({Gender:'',Branch:'',Experience:'', EventDate:''});
-    const [volunteer, setVolunteer] = useState({ eventLead: '', eventName: '', venue: '',award:'',maxMember:'',age:'',endOfDate:'',aboutEvent:'',phone:'',contactTime:'',gender:'',Branch:'',experience:'',eventDate:'',eventTime:'', });
-    // const [message, setMessage] = useState('');
+    const [user,setUser] = useState({Branch:'',Experience:'', EventDate:''});
+    const [volunteer, setVolunteer] = useState({ eventLead: '', eventName: '', venue: '',award:'',maxMember:'',age:'',endOfDate:'',aboutEvent:'',phone:'',contactTime:'',Branch:'',experience:'',eventDate:'',eventTime:'', });
+    
     const handleClick = (e)=>{
         setUser((predata)=>({...predata,[e.target.name] : e.target.name}));
-        // console.log(user);
+        
     }
-    const handlePush=(e)=>{
-        setVolunteer((predata)=>({...predata,[e.target.name] : e.target.value}));
+    const handlePush= (e)=>{
+      setVolunteer((predata)=>({...predata,[e.target.name] : e.target.value}));
     }
-    const handleSubmit = (e)=>{
-
+    const handleSubmit = async(e)=>{
+      
       e.preventDefault();
-      volunteer.eventTime = new Date();
       if(volunteer.eventTime !==''){
-         volunteer.filter((predata)=> {return predata   !== 'eventTime';})
+        volunteer.eventTime = new Date();
       }
-      setVolunteer((predata)=>({...predata,[volunteer.eventTime]:`${volunteer.eventTime}`}));
-      console.log(volunteer);
+      else{
+        volunteer.eventTime = new Date();
+        setVolunteer((predata)=>({...predata,[volunteer.eventTime]:`${volunteer.eventTime}`}));
+        try{
+    
+            const user  = await axios.post(`http://localhost:8000/events/register-event`,volunteer);
+            console.log('connection done successfully');
+            const {success,message} = await user.data();
+            if(success){
+                console.log('sent successfully:',success);
+            }
+            else{
+                console.log('show:', message);
+            }
+    
+        }
+        catch(error){
+           console.log(error);
+        }
+      }
+        
     }
   return (
     <div>
         <div style={{height:"50px", display:"flex",justifyContent:"center"}}>
 
-          <button style={{margin:"15px",backgroundColor:"#FFFF00", fontSize:"20px"}} name="Gender" onClick={handleClick}>Gender</button>
+          {/* <button style={{margin:"15px",backgroundColor:"#FFFF00", fontSize:"20px"}} name="Gender" onClick={handleClick}>Gender</button> */}
           <button style={{margin:"15px",backgroundColor:"#FFFF00" ,fontSize:"20px"}} name="Branch" onClick={handleClick}>Branch</button>
           <button style={{margin:"15px",backgroundColor:"#FFFF00" ,fontSize:"20px"}} name="Experience" onClick={handleClick}>Experience</button>
           <button style={{margin:"15px",backgroundColor:"#FFFF00" ,fontSize:"20px"}} name="EventDate" onClick={handleClick}>Event Date</button>
@@ -73,32 +91,18 @@ const EventLead = () => {
                       <label htmlFor="contactTime">Preferred Contact Time:</label>
                       <input type="time" id="contactTime" name="contactTime" onChange={handlePush} value={volunteer.contactTime} autoComplete='off'/><br />
 
-                      {/* <!-- 7. Radio Buttons for Gender --> */}
-                      {user.Gender === 'Gender' && <div>
-                        <label>Gender:</label>
-                        <input type="radio" id="male" name="gender" value={volunteer.gender}  onChange={handlePush}/>
-                        <label htmlFor="male">Male</label>
-                        <input type="radio" id="female" name="gender" value={volunteer.gender} onChange={handlePush}/>
-                        <label htmlFor="female">Female</label><br />
-                      </div>}
-
                       {/* <!-- 8. Select Input for Country --> */}
                       {user.Branch === 'Branch' && <div>
-                        <label htmlFor="country" >Branch</label>
-                        <select id="country" name="Branch" value={volunteer.Branch} onChange={handlePush}>
-                          <option> USA</option>
-                          <option> Canada</option>
-                          <option> India</option>
-                          <option> UK</option>
-                        </select><br  />
+                        <label htmlFor="Branch" >Branch</label>
+                        <input type="text" id="Branch" name="Branch" value={volunteer.Branch} onChange={handlePush} required autoComplete='off'/><br/>
                       </div>}
 
                       {/* <!-- 10. Range Input for Experience Level --> */}
                       {user.Experience === 'Experience' && 
                       <div>
                         <label htmlFor="experience">Experience (years):</label>
-                        <input type="range" id="experience" name="experience" min="0" max="30" step="1" onChange={handlePush} value={volunteer.experience} autoComplete='off'/>
-                        <span id="experienceValue">0</span> years<br />
+                        <input type="range" id="experience" name="experience" min="0" max="30" step="1" onChange={handlePush} autoComplete='off'/>
+                        <span id="experienceValue" >{volunteer.experience}</span> years<br />
                       </div>
                       }
 
