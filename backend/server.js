@@ -19,6 +19,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Routes
+app.use('/register', volunteerRoutes);
+app.use('/events', eventRoutes);
+app.use('/Staff', staffRoutes);
+app.use('/Lead', leadRoutes);
+
 // MongoDB connection string (Use your Atlas connection string here)
 const mongoURI = x;
 
@@ -26,14 +32,6 @@ const mongoURI = x;
 mongoose.connect(mongoURI,{useNewUrlParser: true ,useUnifiedTopology: true})
 .then(() => console.log('MongoDB connected successfully'))
 .catch((err) => console.error('MongoDB connection error:', err));
-
-// Routes
-app.use('/register', volunteerRoutes);
-app.use('/events', eventRoutes);
-app.use('/Staff', staffRoutes);
-app.use('/Lead', leadRoutes);
-
-
 app.listen(8000, () => {
   console.log('Server running on port 8000')
 });

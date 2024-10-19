@@ -22,7 +22,7 @@ app.post('/SignUp', async(req, res) => {
 });
 
 // Login volunteer
-app.post('/login', async (req, res) => {
+app.post('/login',async (req, res) => {
   const { email, password } = req.body;
   const volunteer = await VolunteerSchema.findOne({ email });
   if (!volunteer) {
@@ -37,19 +37,6 @@ app.post('/login', async (req, res) => {
   const token = jwt.sign({ volunteerId: volunteer._id }, JWT_SECRET, { expiresIn: '1h' });
   res.json({ token });
 });
-
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-  
-    if (!token) return res.sendStatus(401);
-  
-    jwt.verify(token, JWT_SECRET, (err, user) => {
-      if (err) return res.sendStatus(403);
-      req.volunteer = user;
-      next();
-    });
-};
 
 module.exports = app;
 

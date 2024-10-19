@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
 const LeadSignUp = () => {
-  const [volunteer, setVolunteer] = useState({ name: '', email: '', password: '',company:'',responsibilty:'' });
+  const [volunteer, setVolunteer] = useState({ name: '', email: '', password: '',company:'amazon',responsibilty:'lead' });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
@@ -49,19 +49,21 @@ const LeadSignUp = () => {
         <input type="password" name="password" value={volunteer.password} onChange={handleChange} />
         
         <label for="activities">Company name:</label>
-        <select id="activities" name="activities" multiple>
+        <input style={{marginLeft:"0 px"}}  type="checkbox" id="lead" name="responsibility" value="Amazon"/>
+        {/* <select id="activities" name="activities" multiple>
           <option value="volunteering">Volunteering</option>
           <option value="coding">Coding</option>
           <option value="sports">Sports</option>
           <option value="reading">Reading</option>
           <option value="music">Music</option>
-        </select>
+        </select> */}
         <br/>
         <label>Responsibilities:</label>
         <input style={{marginLeft:"0 px"}}  type="checkbox" id="lead" name="responsibility" value="Lead"/>
+        {/* <input style={{marginLeft:"0 px"}}  type="checkbox" id="lead" name="responsibility" value="Lead"/>
         <label style={{marginLeft:"10px"}} for="lead">Lead</label>
         <input style={{marginLeft:"0 px"}}  type="checkbox" id="employee" name="responsibility" value="Staff"/>
-        <label style={{marginLeft:"10px"}} for="employee">Employee</label>
+        <label style={{marginLeft:"10px"}} for="employee">Employee</label> */}
         
         <button type="submit">Sign Up</button>
       </form>

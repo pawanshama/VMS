@@ -23,8 +23,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   responsibility: {
-    type: String,  
-    enum: ['Lead', 'Employee'],
+    type: String, 
     required: true,
   }
 }, {

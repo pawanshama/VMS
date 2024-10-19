@@ -12,7 +12,6 @@ const SignIn = () => {
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
-  let r = 0;
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -30,7 +29,6 @@ const SignIn = () => {
             navigate('/dashBoard');
         }, 2000);
       } else {
-        r=1;
         setMessage('Invalid email or password.');
       }
     } catch (error) {
