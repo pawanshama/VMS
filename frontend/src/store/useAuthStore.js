@@ -13,6 +13,8 @@ export const useAuthStore = create((set, get) => ({
   isCheckingAuth: true,
   onlineUsers: [],
   socket: null,
+  registered:null,
+  iscreatingEvent:null,
 
   checkAuth: async () => {
     try {
@@ -101,5 +103,50 @@ export const useAuthStore = create((set, get) => ({
   },
   disconnectSocket: () => {
     if (get().socket?.connected) get().socket.disconnect();
+  },
+
+  registeredEvent:async()=>{
+    try{
+      const user = await axiosInstance.post("/",authUser.email);
+      set({registered:user});
+    }
+    catch(error){
+      console.log("error in registered event:", error);
+      toast.error(error.response.data.message);
+    }
+  },
+  deleteRegistered:async(id)=>{
+    try {
+      const res = await axiosInstance.delete(`/auth/update-profile/:${id}`);
+      // set({ authUser: res.data });
+      registeredEvent();
+      toast.success("deleted successfully");
+    } catch (error) {
+      console.log("error in deletion:", error);
+      toast.error(error.response.data.message);
+    }
+  },
+  createEvent:async(data)=>{
+    set({ iscreatingEvent: true });
+    try {
+      const res = await axiosInstance.post("/auth/event/adminPost", data);
+      
+      toast.success("created successfully");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ iscreatingEvent: false });
+    }
+  },
+  deleteEvent:async(id)=>{
+    try {
+      const res = await axiosInstance.delete(`/auth/update-profile/:${id}`);
+      // set({ authUser: res.data });
+      // registeredEvent();
+      toast.success("deleted successfully");
+    } catch (error) {
+      console.log("error in deletion:", error);
+      toast.error(error.response.data.message);
+    }
   },
 }));

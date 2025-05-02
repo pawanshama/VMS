@@ -1,20 +1,20 @@
-const express = require('express')
-const ensureAuthenticated = require('../middleware/beforeProduct.js')
-const boolAdmin = require('../middleware/checkAuthor.js');
-const registeredSchema = require('../models/admin/allRegisteredEvent.js')
-const eventSchema = require('../models/admin/eventRegister.js')
-const userSchema = require('../models/userModel/userModel.js');
+import express from "express"
+import registeredSchema from "../models/admin/allRegisteredEvent.js"
+import eventSchema from "../models/admin/eventRegister.js"
+import User from '../models/user.model.js'
+import { protectRoute } from "../middleware/auth.middleware.js"
 const app = express.Router()
 
-//this is for staff creating events 
-app.post('/adminPost',ensureAuthenticated,boolAdmin,async(req,res)=>{
+//This is creation of an event 
+app.post('/adminPost',async(req,res)=>{
+    
     try{
-        const {} = req.body;
+        const {email,eventName,description,venue,startDate,endDate} = req.body;
         const queryArray = []
         if(email==='' || eventName===''|| description==='' || venue=== '' || 
         startDate === '' || endDate=== '' )return res.status(400).json({message:"Please send correct input."})
         if(email) queryArray.push({email:{$regex:email,$options:'i'}})
-        if(movieName)queryArray.push({movieName:{$regex:movieName,$options:'i'}})
+        if(eventName)queryArray.push({eventName:{$regex:eventName,$options:'i'}})
 
         const dri = await eventSchema.findOne({email,eventName,venue,startDate,endDate});
        
@@ -27,24 +27,24 @@ app.post('/adminPost',ensureAuthenticated,boolAdmin,async(req,res)=>{
        
         ds = new registeredSchema({eventName,description,venue,startDate,endDate});
          await ds.save();
-        return res.status(201).json({message:"success! movie submitted",ds,data});
+        return res.status(201).json({message:"success! event submitted"});
     }catch(err){
-        return res.status(500).json({message:`something went wrong movie not fetched`,err})
+        return res.status(500).json({message:`something went wrong on server`,err})
     }
 }
 )
 
 //this is admin making users staff like himself
-app.post('/authenticate-user',ensureAuthenticated,boolAdmin,async(req,res)=>{
+app.post('/authenticate-user',protectRoute,async(req,res)=>{
     try{
          const {email,email1} = req.body;
-         const ds = await userSchema.findOne({email:{$regex:email1,options:'i'}});
+         const ds = await User.findOne({email:{$regex:email1,options:'i'}});
          if(!ds){
             return res.status(404).json({message:"element not found",ds});
          }
 
         const id = ds._id;
-        const da = await userSchema.deleteOne({id});
+        const da = await User.deleteOne({id});
 
         if(!da){
             return res.status(400).json({message:"id cannot be deleted",da});
@@ -54,7 +54,7 @@ app.post('/authenticate-user',ensureAuthenticated,boolAdmin,async(req,res)=>{
         const name = da.name;
         const pass = da.password;
         const resp = da.responsibility
-        const d = new userSchema({name,email:em,password:pass,responsibility:resp})
+        const d = new User({name,email:em,password:pass,responsibility:resp})
         await d.save();
         return res.status(200).json({message:"Your role assigned as staff",d});
     }
@@ -64,16 +64,16 @@ app.post('/authenticate-user',ensureAuthenticated,boolAdmin,async(req,res)=>{
 })
 
 //convert staff to user by self account;
-app.post('/downgrade',ensureAuthenticated,boolAdmin,async(req,res)=>{
+app.post('/downgrade',protectRoute,async(req,res)=>{
     try{
          const {email} = req.body;
-         const ds = await userSchema.findOne({email:{$regex:email,options:'i'}});
+         const ds = await User.findOne({email:{$regex:email,options:'i'}});
          if(!ds){
             return res.status(404).json({message:"element not found",ds});
          }
 
         const id = ds._id;
-        const da = await userSchema.deleteOne({id});
+        const da = await User.deleteOne({id});
 
         if(!da){
             return res.status(400).json({message:"id cannot be deleted",da});
@@ -83,7 +83,7 @@ app.post('/downgrade',ensureAuthenticated,boolAdmin,async(req,res)=>{
         const name = da.name;
         const pass = da.password;
         const resp = da.responsibility
-        const d = new userSchema({name,email:em,password:pass,responsibility:resp})
+        const d = new User({name,email:em,password:pass,responsibility:resp})
         await d.save();
         return res.status(200).json({message:"Your assigned as User",d});
     }
@@ -93,7 +93,7 @@ app.post('/downgrade',ensureAuthenticated,boolAdmin,async(req,res)=>{
 })
 
 //this is for users and staffs fetching events.
-app.get('/fetch',async(req, res)=> {
+app.get('/fetch',protectRoute,async(req, res)=> {
     try{
         
         const data = await registeredSchema.find({});
@@ -107,7 +107,7 @@ app.get('/fetch',async(req, res)=> {
     }
 })
 //this is for staff deleting event.
-app.delete('/delete/:id',ensureAuthenticated,boolAdmin,async(req,res)=>{
+app.delete('/delete/:id',protectRoute,async(req,res)=>{
      try{
           const {id} = req.params._id;
           console.log(id);
