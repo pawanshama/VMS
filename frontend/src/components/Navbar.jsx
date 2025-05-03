@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
-import { LogOut, MessageSquare, PlusCircle, Settings, University, User, UserCheck, UserPlus } from "lucide-react";
+import { LogOut, MessageSquare, PlusCircle, Settings, User, UserCheck, UserPlus } from "lucide-react";
 
 const Navbar = () => {
   const { logout, authUser } = useAuthStore();
@@ -27,16 +27,17 @@ const Navbar = () => {
                     <>
                       {
                         authUser.responsibility?
-                        <Link to={"/registered"} className={`btn btn-sm gap-2`}>
+                        <Link to={"/create_event"} className={`btn btn-sm gap-2`}>
                           <PlusCircle className="size-5" />
                           <span className="hidden sm:inline">create-new-event</span>
                         </Link> :
-                         <span></span>
+                        <span></span>
                       }
                       <Link to={"/registered"} className={`btn btn-sm gap-2`}>
                         <UserCheck className="size-5" />
                         <span className="hidden sm:inline">Event registered</span>
                       </Link>
+                      
                       <Link to={"/profile"} className={`btn btn-sm gap-2`}>
                         <User className="size-5" />
                         <span className="hidden sm:inline">Profile</span>

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
 
 //this schema is just the database logs that are created by staffs and everyOne can see them in there dashBoards
 const registeredSchema = new mongoose.Schema({
@@ -24,4 +24,5 @@ const registeredSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('events',registeredSchema);
+const m = mongoose.model('event',registeredSchema);
+export default m;

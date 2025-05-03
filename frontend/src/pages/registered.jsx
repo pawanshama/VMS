@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { axiosInstance } from '../lib/axios'
+// import { axiosInstance } from '../lib/axios'
 import { useAuthStore } from '../store/useAuthStore';
 const Registered = () => {
     // const [registers,setRegisters] =  useState(null);

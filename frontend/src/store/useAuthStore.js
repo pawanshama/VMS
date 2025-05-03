@@ -115,6 +115,7 @@ export const useAuthStore = create((set, get) => ({
       toast.error(error.response.data.message);
     }
   },
+
   deleteRegistered:async(id)=>{
     try {
       const res = await axiosInstance.delete(`/auth/update-profile/:${id}`);
@@ -126,21 +127,24 @@ export const useAuthStore = create((set, get) => ({
       toast.error(error.response.data.message);
     }
   },
-  createEvent:async(data)=>{
+
+  createUserValidEvent : async (data) => {
     set({ iscreatingEvent: true });
     try {
-      const res = await axiosInstance.post("/auth/event/adminPost", data);
-      
+      console.log("error hai")
+      const res = await axiosInstance.post("/event/post", data);
       toast.success("created successfully");
     } catch (error) {
+      console.log("error in the authStore....");
       toast.error(error.response.data.message);
     } finally {
       set({ iscreatingEvent: false });
     }
   },
-  deleteEvent:async(id)=>{
+
+  deleteEvent: async (id) => {
     try {
-      const res = await axiosInstance.delete(`/auth/update-profile/:${id}`);
+      const res = await axiosInstance.delete(`/update-profile/:${id}`);
       // set({ authUser: res.data });
       // registeredEvent();
       toast.success("deleted successfully");

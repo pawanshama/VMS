@@ -1,13 +1,10 @@
-import express from "express"
+import mongoose from "mongoose";
 import registeredSchema from "../models/admin/allRegisteredEvent.js"
 import eventSchema from "../models/admin/eventRegister.js"
 import User from '../models/user.model.js'
-import { protectRoute } from "../middleware/auth.middleware.js"
-const app = express.Router()
 
-//This is creation of an event 
-app.post('/adminPost',async(req,res)=>{
-    
+export const creating = async(req,res)=>{
+    console.log(req.body);
     try{
         const {email,eventName,description,venue,startDate,endDate} = req.body;
         const queryArray = []
@@ -15,8 +12,13 @@ app.post('/adminPost',async(req,res)=>{
         startDate === '' || endDate=== '' )return res.status(400).json({message:"Please send correct input."})
         if(email) queryArray.push({email:{$regex:email,$options:'i'}})
         if(eventName)queryArray.push({eventName:{$regex:eventName,$options:'i'}})
+        if(description)queryArray.push({description:{$regex:description,$options:'i'}})
+        if(venue)queryArray.push({venue:{$regex:venue,$options:'i'}})
+        if(startDate)queryArray.push({startDate:{$regex:startDate,$options:'i'}})
+        if(endDate)queryArray.push({endDate:{$regex:endDate,$options:'i'}})
+        
 
-        const dri = await eventSchema.findOne({email,eventName,venue,startDate,endDate});
+        const dri = await eventSchema.findOne({$and:queryArray});
        
         if(dri){
             return res.status(409).json({message:"Admin already have this kind of movie"
@@ -32,10 +34,8 @@ app.post('/adminPost',async(req,res)=>{
         return res.status(500).json({message:`something went wrong on server`,err})
     }
 }
-)
 
-//this is admin making users staff like himself
-app.post('/authenticate-user',protectRoute,async(req,res)=>{
+export const user2staff = async(req,res)=>{
     try{
          const {email,email1} = req.body;
          const ds = await User.findOne({email:{$regex:email1,options:'i'}});
@@ -61,10 +61,9 @@ app.post('/authenticate-user',protectRoute,async(req,res)=>{
     catch(error){
         return res.status(500).json({message:"Server Failed",error})
     }
-})
+}
 
-//convert staff to user by self account;
-app.post('/downgrade',protectRoute,async(req,res)=>{
+export const staff2user = async(req,res)=>{
     try{
          const {email} = req.body;
          const ds = await User.findOne({email:{$regex:email,options:'i'}});
@@ -90,10 +89,9 @@ app.post('/downgrade',protectRoute,async(req,res)=>{
     catch(error){
         return res.status(500).json({message:"Server Failed",error})
     }
-})
+}
 
-//this is for users and staffs fetching events.
-app.get('/fetch',protectRoute,async(req, res)=> {
+export const new_events = async(req, res)=> {
     try{
         
         const data = await registeredSchema.find({});
@@ -105,21 +103,19 @@ app.get('/fetch',protectRoute,async(req, res)=> {
     }catch(err){
         return res.status(500).json({message:'error occured',err})
     }
-})
-//this is for staff deleting event.
-app.delete('/delete/:id',protectRoute,async(req,res)=>{
-     try{
-          const {id} = req.params._id;
-          console.log(id);
-          const data = await eventSchema.findById({id});
-          console.log(data);
-          if(!data){
-            return res.status(409).json({message:"this event is already deleted",data});
-          }
-     }
-     catch(err){
-        return res.status(500).json({message:"Server Failed"});
-     }
-})
+}
 
-module.exports = app
+export const delete_event = async(req,res)=>{
+    try{
+         const {id} = req.params._id;
+         console.log(id);
+         const data = await eventSchema.findById({id});
+         console.log(data);
+         if(!data){
+           return res.status(409).json({message:"this event is already deleted",data});
+         }
+    }
+    catch(err){
+       return res.status(500).json({message:"Server Failed"});
+    }
+}

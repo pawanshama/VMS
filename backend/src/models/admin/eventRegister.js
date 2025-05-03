@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
 
 //this schema is database logs that indicate staff with their emails.
 const eventSchema = new mongoose.Schema({
@@ -28,4 +28,5 @@ const eventSchema = new mongoose.Schema({
    }
 })
 
-module.exports = mongoose.model("complete",eventSchema)
+const m = mongoose.model("complete",eventSchema)
+export default m;

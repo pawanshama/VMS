@@ -4,19 +4,19 @@ import { Link } from "react-router-dom";
 import { Loader2, Text } from "lucide-react";
 
 const CreateEvent = () => {
+  const {iscreatingEvent,createUserValidEvent,authUser}  = useAuthStore();
   const [formData,setFormData] = useState({
+    email:`${authUser.email}`,
     eventName: "",
     description: "",
     venue:"",
     startDate:"",
     endDate:""
   });
-  const {iscreatingEvent,createEvent}  = useAuthStore();
     // handle submit button that runs after submit
     const handleSubmit = async(e)=>{
       e.preventDefault();
-      console.log(formData);
-      createEvent(formData);
+      createUserValidEvent(formData);
     }
 
   return (

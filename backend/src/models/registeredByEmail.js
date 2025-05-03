@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 //this schema is for emails that have registered certain events.
 const eventBookedSchema = new mongoose.Schema({
