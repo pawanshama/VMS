@@ -26,7 +26,7 @@ const eventSchema = new mongoose.Schema({
     type:String,
     required:true
    }
-})
+},{timestamps:true})
 
 const m = mongoose.model("complete",eventSchema)
 export default m;

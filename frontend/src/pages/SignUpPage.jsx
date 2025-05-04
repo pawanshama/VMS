@@ -8,13 +8,17 @@ import toast from "react-hot-toast";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const {authUserLogin, signup, isSigningUp } = useAuthStore();
+  const email1 = authUserLogin.email;
+  const password1 = authUserLogin.password;
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
+    email1,
+    password1,
   });
 
-  const { signup, isSigningUp } = useAuthStore();
 
   const validateForm = () => {
     if (!formData.fullName.trim()) return toast.error("Full name is required");

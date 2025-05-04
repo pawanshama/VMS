@@ -1,13 +1,13 @@
-const express = require('express')
-const eventBookedSchema = require('../../models/registeredByEmail.js')
+import express from "express";
+import eventBookedSchema from '../../models/registeredByEmail.js'
 // const eventSchema = require('../models/admin/eventRegister.js')
 const app = express.Router()
 
 //this is for registering events 
-app.post('/events',async(req,res)=>{
+app.post('/register/event',async(req,res)=>{
+    console.log(req.body);
     try{
-        const {email,data} = req.body;
-        const {eventName,description,venue,startDate,endDate} = data;
+        const {email,eventName,description,venue,startDate,endDate} = req.body;
         const queryArray = []
         if(email==='' || eventName===''|| description==='' || venue=== '' || 
         startDate === '' || endDate=== '' )return res.status(400).json({message:"Please send correct input."})
@@ -21,11 +21,15 @@ app.post('/events',async(req,res)=>{
 
         const dri = await eventBookedSchema.findOne({$and:queryArray});
         if(dri){
-            return res.status(409).json({message:"Admin already have this kind of movie"
-            })
+            return res.status(409).json({message:`Event already registered by ${dri[0].email}`})
         }
+        console.log("dri",dri);
         const da = new eventBookedSchema({email,eventName,description,venue,startDate,endDate});
         await da.save()
+        console.log("da",da);
+        if(!da){
+            return res.status(401).json({message:"event register failed"});
+        }
         return res.status(201).json({message:"success! event registered",da});
     }catch(err){
         return res.status(500).json({message:`Server Problem`,err})
@@ -33,8 +37,8 @@ app.post('/events',async(req,res)=>{
 }
 )
 
-//this is for users and staffs fetching events.
-app.get('/fetch',async(req, res)=> {
+//This is for users and staffs fetching registered events.
+app.get('/fetch/event',async(req, res)=> {
     try{
         const {email} = req.query
         if(email === '') return res.status(404).json({message:'bad request',email})
@@ -48,7 +52,7 @@ app.get('/fetch',async(req, res)=> {
         return res.status(500).json({message:'error occured',err})
     }
 })
-//this is for staff deleting event.
+//this is for user deleting registered event in his history.
 app.delete('/delete/:id',async(req,res)=>{
      try{
           const {id} = req.params.id;
@@ -60,11 +64,11 @@ app.delete('/delete/:id',async(req,res)=>{
           }
           const ds = await eventBookedSchema.deleteOne({id});
           console.log(ds);
-          return res.status(201).json({message:"event deleted successfully",ds});
+          return res.status(201).json({message:"event deleted successfully"});
      }
      catch(err){
         return res.status(500).json({message:"Server Failed"});
      }
 })
 
-module.exports = app
+export default app

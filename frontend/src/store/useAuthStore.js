@@ -7,14 +7,15 @@ const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
+  authUserLogin:null,
   isSigningUp: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
   onlineUsers: [],
   socket: null,
-  registered:null,
-  iscreatingEvent:null,
+  // registered:null,
+  // iscreatingEvent:null,
 
   checkAuth: async () => {
     try {
@@ -47,6 +48,7 @@ export const useAuthStore = create((set, get) => ({
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
+      set({authUserLogin:data});
       const res = await axiosInstance.post("/auth/login", data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
@@ -103,54 +105,5 @@ export const useAuthStore = create((set, get) => ({
   },
   disconnectSocket: () => {
     if (get().socket?.connected) get().socket.disconnect();
-  },
-
-  registeredEvent:async()=>{
-    try{
-      const user = await axiosInstance.post("/",authUser.email);
-      set({registered:user});
-    }
-    catch(error){
-      console.log("error in registered event:", error);
-      toast.error(error.response.data.message);
-    }
-  },
-
-  deleteRegistered:async(id)=>{
-    try {
-      const res = await axiosInstance.delete(`/auth/update-profile/:${id}`);
-      // set({ authUser: res.data });
-      registeredEvent();
-      toast.success("deleted successfully");
-    } catch (error) {
-      console.log("error in deletion:", error);
-      toast.error(error.response.data.message);
-    }
-  },
-
-  createUserValidEvent : async (data) => {
-    set({ iscreatingEvent: true });
-    try {
-      console.log("error hai")
-      const res = await axiosInstance.post("/event/post", data);
-      toast.success("created successfully");
-    } catch (error) {
-      console.log("error in the authStore....");
-      toast.error(error.response.data.message);
-    } finally {
-      set({ iscreatingEvent: false });
-    }
-  },
-
-  deleteEvent: async (id) => {
-    try {
-      const res = await axiosInstance.delete(`/update-profile/:${id}`);
-      // set({ authUser: res.data });
-      // registeredEvent();
-      toast.success("deleted successfully");
-    } catch (error) {
-      console.log("error in deletion:", error);
-      toast.error(error.response.data.message);
-    }
   },
 }));

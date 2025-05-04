@@ -33,6 +33,14 @@ const Navbar = () => {
                         </Link> :
                         <span></span>
                       }
+                      {
+                        authUser.responsibility?
+                        <Link to={"/created/time/operation"} className={`btn btn-sm gap-2`}>
+                          <UserPlus className="size-5" />
+                          <span className="hidden sm:inline">created-events</span>
+                        </Link>:
+                        <span></span>
+                      }
                       <Link to={"/registered"} className={`btn btn-sm gap-2`}>
                         <UserCheck className="size-5" />
                         <span className="hidden sm:inline">Event registered</span>
@@ -51,7 +59,7 @@ const Navbar = () => {
                         <span></span>
                       }
 
-                      <Link to={"/"} className={`btn btn-sm gap-2`}>
+                      <Link to={"/chat"} className={`btn btn-sm gap-2`}>
                         <User className="size-5" />
                         <span className="hidden sm:inline">Chat</span>
                       </Link>

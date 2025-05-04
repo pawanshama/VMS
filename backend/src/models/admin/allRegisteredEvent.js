@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 //this schema is just the database logs that are created by staffs and everyOne can see them in there dashBoards
 const registeredSchema = new mongoose.Schema({
+    email:{
+       type:String,
+       required:true
+    },
     eventName:{
         type:String,
         required:true

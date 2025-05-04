@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import registeredSchema from "../models/admin/allRegisteredEvent.js"
 import eventSchema from "../models/admin/eventRegister.js"
 import User from '../models/user.model.js'
+import moment from "moment"
 
 export const creating = async(req,res)=>{
     console.log(req.body);
@@ -21,14 +21,13 @@ export const creating = async(req,res)=>{
         const dri = await eventSchema.findOne({$and:queryArray});
        
         if(dri){
-            return res.status(409).json({message:"Admin already have this kind of movie"
-            })
+            return res.status(409).json({message:"Admin already have this kind of event"})
         }
         const data = new eventSchema({email,eventName,description,venue,startDate,endDate});
         await data.save()
-       
-        ds = new registeredSchema({eventName,description,venue,startDate,endDate});
-         await ds.save();
+        if(!data)return res.status(400).json({message:"Problem to create event"});
+        // ds = new registeredSchema({eventName,description,venue,startDate,endDate});
+        // await ds.save();
         return res.status(201).json({message:"success! event submitted"});
     }catch(err){
         return res.status(500).json({message:`something went wrong on server`,err})
@@ -94,8 +93,11 @@ export const staff2user = async(req,res)=>{
 export const new_events = async(req, res)=> {
     try{
         
-        const data = await registeredSchema.find({});
-        
+        const data = await eventSchema.find();
+        // const afterThePresentTime = data.filter((item)=>item.timestamps.isAfter(Date.now()));
+        // if(!afterThePresentTime){
+        //     return res.status(404).json("No event is live");
+        // }
         if(!data){
             return res.status(404).json("No event is live")
         }
@@ -107,13 +109,18 @@ export const new_events = async(req, res)=> {
 
 export const delete_event = async(req,res)=>{
     try{
-         const {id} = req.params._id;
+         const {id} = req.params.id;
          console.log(id);
          const data = await eventSchema.findById({id});
          console.log(data);
          if(!data){
            return res.status(409).json({message:"this event is already deleted",data});
          }
+         const del = await eventSchema.deleteOne({id});
+         if(!del){
+            return res.status(400).json({message:"problem occured in deletion"})
+         }
+         return res.status(201).json({message:"event Deleted"});
     }
     catch(err){
        return res.status(500).json({message:"Server Failed"});

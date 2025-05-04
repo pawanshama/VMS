@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { useAuthStore } from '../store/useAuthStore'
 import { Link } from "react-router-dom";
 import { Loader2, Text } from "lucide-react";
+import { useEventStore } from '../store/useEventStore';
 
 const CreateEvent = () => {
-  const {iscreatingEvent,createUserValidEvent,authUser}  = useAuthStore();
+  const {createUserValidEvent} = useEventStore();
+  const {iscreatingEvent,authUser}  = useAuthStore();
   const [formData,setFormData] = useState({
     email:`${authUser.email}`,
     eventName: "",
@@ -76,7 +78,7 @@ const CreateEvent = () => {
                   type="text"
                   className={`input input-bordered w-full pl-10`}
                   placeholder="Main Auditorium, HQ Building"
-                  value={formData.Venue}
+                  value={formData.venue}
                   onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
                 />
               </div>

@@ -3,29 +3,30 @@ import mongoose from "mongoose";
 //this schema is for emails that have registered certain events.
 const eventBookedSchema = new mongoose.Schema({
      email:{
-        Type:String,
+        type:String,
         required:true,
      },
      eventName:{
-        Type:String,
+        type:String,
         required:true
      },
      description:{
-        Type:String,
+        type:String,
         required:true
      },
      venue:{
-        Type:String,
+        type:String,
         required:true
      },
      startDate:{
-        Type:String,
+        type:String,
         required:true
      },
      endDate:{
-        Type:String,
+        type:String,
         required:true
      }
 })
 
-module.exports = mongoose.model("Event-Booked",eventBookedSchema)
+const us = mongoose.model("EventBooked",eventBookedSchema)
+export default us;
