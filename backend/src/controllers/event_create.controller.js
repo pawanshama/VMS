@@ -91,8 +91,10 @@ export const staff2user = async(req,res)=>{
 }
 
 export const new_events = async(req, res)=> {
+    console.log(req.body);
     try{
-        
+        const {email} = req.body;
+        if(email==='')return res.status(404).json({message:`Bad request`});
         const data = await eventSchema.find();
         // const afterThePresentTime = data.filter((item)=>item.timestamps.isAfter(Date.now()));
         // if(!afterThePresentTime){

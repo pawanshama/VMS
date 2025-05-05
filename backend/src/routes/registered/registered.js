@@ -8,25 +8,17 @@ app.post('/register/event',async(req,res)=>{
     console.log(req.body);
     try{
         const {email,eventName,description,venue,startDate,endDate} = req.body;
-        const queryArray = []
         if(email==='' || eventName===''|| description==='' || venue=== '' || 
-        startDate === '' || endDate=== '' )return res.status(400).json({message:"Please send correct input."})
+        startDate === '' || endDate=== '' )return res.status(404).json({message:"Please send correct input."})
 
-        queryArray.push({email:{$regex:email,$options:'i'}});
-        queryArray.push({eventName:{$regex:eventName,$options:'i'}});
-        queryArray.push({description:{$regex:description,$options:'i'}});
-        queryArray.push({venue:{$regex:venue,$options:'i'}});
-        queryArray.push({startDate:{$regex:startDate,$options:'i'}});
-        queryArray.push({endDate:{$regex:endDate,$options:'i'}});
-
-        const dri = await eventBookedSchema.findOne({$and:queryArray});
+        const dri = await eventBookedSchema.findOne({email,eventName,description,venue,startDate,endDate});
         if(dri){
             return res.status(409).json({message:`Event already registered by ${dri[0].email}`})
         }
-        console.log("dri",dri);
+        // console.log("dri",dri);
         const da = new eventBookedSchema({email,eventName,description,venue,startDate,endDate});
         await da.save()
-        console.log("da",da);
+        // console.log("da",da);
         if(!da){
             return res.status(401).json({message:"event register failed"});
         }
@@ -38,14 +30,16 @@ app.post('/register/event',async(req,res)=>{
 )
 
 //This is for users and staffs fetching registered events.
-app.get('/fetch/event',async(req, res)=> {
+app.post('/fetch/event',async(req, res)=> {
+    // console.log()/
     try{
-        const {email} = req.query
+        const {email} = req.body;
+        console.log(typeof(email));
         if(email === '') return res.status(404).json({message:'bad request',email})
-        const data = await eventBookedSchema.find({email:{$regex:email,$options:'i'}});
-        
-        if(!data){
-            return res.status(404).json("No event is live")
+        const data = await eventBookedSchema.find({email});
+        console.log(data);
+        if(data.length===0){
+            return res.status(404).json({message:"No event is live",data});
         }
        return res.status(200).json({message:"Events needs to be updated",data})
     }catch(err){

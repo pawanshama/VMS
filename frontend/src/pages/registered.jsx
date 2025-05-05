@@ -2,9 +2,12 @@ import React, { useEffect } from 'react'
 // import { axiosInstance } from '../lib/axios'
 // import { useAuthStore } from '../store/useAuthStore';
 import { useEventStore } from '../store/useEventStore';
+import { useAuthStore } from '../store/useAuthStore';
 const Registered = () => {
     // const [registers,setRegisters] =  useState(null);
-    const {registered, deleteRegistered} = useEventStore();
+    const {registered, deleteRegistered,registeredEvent} = useEventStore();
+    const {authUser} = useAuthStore();
+    const us = "";
     // const Registered = [
     //     {
     //       name: "Innovation Week Kickoff",
@@ -28,6 +31,13 @@ const Registered = () => {
     //       endDate: "July 10, 2025"
     //     }
     //   ];
+
+    useEffect(()=>{
+        localStorage.setItem("email",authUser.email);
+        registeredEvent();
+    },[us])
+
+    console.log(registered);
 
       //deletion of event from the list. so that new events can be seen on the top.
       const handleDelete = (indexToRemove) => {

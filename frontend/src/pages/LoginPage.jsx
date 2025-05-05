@@ -16,7 +16,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    emailing = formData.email;
+    // emailing = formData.email;
     login(formData);
   };
 

@@ -1,6 +1,10 @@
-import React from 'react'
+import React,{useEffect} from 'react'
+import { useEventStore } from '../store/useEventStore';
 
 const CreatedEvent = () => {
+
+  const {createdEvent, creatingEventByStaff} = useEventStore();
+  const us="";
     const Registered = [
         {
           name: "Innovation Week Kickoff",
@@ -24,6 +28,10 @@ const CreatedEvent = () => {
           endDate: "July 10, 2025"
         }
       ];
+      
+      useEffect(()=>{
+          createdEvent();
+      },[us])
 
       //deletion of event from the list. so that new events can be seen on the top.
       const handleDelete = (indexToRemove) => {

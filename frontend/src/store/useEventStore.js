@@ -8,17 +8,19 @@ export const useEventStore = create((set,get)=>({
     registered:null,
     iscreatingEvent:null,
     isRegistering:false,
-    emailing:null,
     newEvents:null,
+    creatingEventByStaff:null,
 
   registeredEvent:async()=>{
     try{
-        const email = emailing
-        const user = await axiosInstance.post("/new/fetch/event",email);
-        set({registered:user});
+        const email = localStorage.getItem("email");
+        console.log(email);
+        const user = await axiosInstance.post("/new/fetch/event",{email});
+        console.log(user.data.data);
+        set({registered:user.data.data});
     }
     catch(error){
-      console.log("error in registered event:", error);
+      // console.log("error in registered event:", error);
       toast.error(error.response.data.message);
     }
   },
@@ -48,6 +50,17 @@ export const useEventStore = create((set,get)=>({
       set({ iscreatingEvent: false });
     }
   },
+  createdEvent : async () => {
+       try{
+         const email = localStorage.getItem("email");   
+         const response = await axiosInstance.post("/event/fetch",email)
+         console.log(response.data);
+         set({creatingEventByStaff:response.data.data});
+       }
+       catch(error){
+         toast.error(error.response.data.message);
+       }
+  },
 
   deleteEvent: async (id) => {
     try {
@@ -62,10 +75,9 @@ export const useEventStore = create((set,get)=>({
   },
   registerEvent : async (data)=>{
         set({isRegistering:true});
-        console.log(data);
-        console.log(get().emailing);
-        console.log(data.email);
-        // data.email=emailing
+        // console.log(data);
+        // console.log(get().emailing);
+        // console.log(data.email);
         try{
             const response = await axiosInstance.post("/new/register/event",data);
             toast.success("Registered successfully");
