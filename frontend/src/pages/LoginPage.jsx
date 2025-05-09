@@ -11,7 +11,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const {emailing} = useEventStore();
+  
   const { login, isLoggingIn } = useAuthStore();
 
   const handleSubmit = async (e) => {

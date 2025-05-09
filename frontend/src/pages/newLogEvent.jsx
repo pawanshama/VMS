@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useEventStore } from '../store/useEventStore';
 const NewLogEvent = () => {
-    const [data,setData] = useState(null);
+    // const [data,setData] = useState(null);
     // const {} = useEventStore();
-    const {fetchNewEvents,registerEvent,iscreating,newEvents,isRegistering} = useEventStore();
+    const {fetchNewEvents,registerEvent,iscreatingEvent,newEvents,isRegistering} = useEventStore();
+    const us = "";
     // const Registered = [
     //     {
     //       name: "Innovation Week Kickoff",
@@ -32,12 +33,12 @@ const NewLogEvent = () => {
     useEffect(()=>{
       fetchNewEvents();
       // console.log(newEvents);
-    },[iscreating])
+    },[us])
 
 
       //register of event from the list. so that new events can be seen on the top.
       const handleRegister = (id) => {
-          console.log(id);
+          // console.log(id);
           const data = newEvents.filter(item=>(item._id===id));
           // console.log(data);
             registerEvent(data[0]);

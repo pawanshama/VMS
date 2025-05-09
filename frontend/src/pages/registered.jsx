@@ -37,7 +37,7 @@ const Registered = () => {
         registeredEvent();
     },[us])
 
-    console.log(registered);
+    // console.log(registered);
 
       //deletion of event from the list. so that new events can be seen on the top.
       const handleDelete = (indexToRemove) => {
@@ -45,7 +45,7 @@ const Registered = () => {
       };
       // h-[calc(100vh-8rem)]
   return (
-    <div className="h-screen bg-base-200">
+    <div className="h-auto pb-20 bg-base-200">
       <div className="flex items-center justify-center pt-20 px-4">
         <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-full">
           <div className="flex flex-col h-full rounded-lg overflow-hidden">

@@ -91,10 +91,10 @@ export const staff2user = async(req,res)=>{
 }
 
 export const new_events = async(req, res)=> {
-    console.log(req.body);
+    // console.log(req.body);
     try{
-        const {email} = req.body;
-        if(email==='')return res.status(404).json({message:`Bad request`});
+        // const {email} = req.body;
+        // if(email==='')return res.status(404).json({message:`Bad request`});
         const data = await eventSchema.find();
         // const afterThePresentTime = data.filter((item)=>item.timestamps.isAfter(Date.now()));
         // if(!afterThePresentTime){
@@ -106,6 +106,22 @@ export const new_events = async(req, res)=> {
        return res.status(200).json({message:"Events needs to be updated",data})
     }catch(err){
         return res.status(500).json({message:'error occured',err})
+    }
+}
+
+export const userSpecificEvent = async(req,res)=>{
+    const {email} = req.body;
+    // console.log(email);
+    try{
+        if(email=='')return res.status(404).json({message:`Bad request`});
+        const data = await eventSchema.find({email});
+        if(!data){
+            return res.status(404).json({message:`No events exists`});
+        }
+        return res.status(201).json({message:`success`,data});
+    }
+    catch(error){
+        return res.status(500).json({message:`Server Internal Problem`,error});
     }
 }
 

@@ -5,7 +5,7 @@ const app = express.Router()
 
 //this is for registering events 
 app.post('/register/event',async(req,res)=>{
-    console.log(req.body);
+    // console.log(req.body);
     try{
         const {email,eventName,description,venue,startDate,endDate} = req.body;
         if(email==='' || eventName===''|| description==='' || venue=== '' || 
@@ -34,10 +34,10 @@ app.post('/fetch/event',async(req, res)=> {
     // console.log()/
     try{
         const {email} = req.body;
-        console.log(typeof(email));
+        // console.log(typeof(email));
         if(email === '') return res.status(404).json({message:'bad request',email})
         const data = await eventBookedSchema.find({email});
-        console.log(data);
+        // console.log(data);
         if(data.length===0){
             return res.status(404).json({message:"No event is live",data});
         }
@@ -50,9 +50,9 @@ app.post('/fetch/event',async(req, res)=> {
 app.delete('/delete/:id',async(req,res)=>{
      try{
           const {id} = req.params.id;
-          console.log(id);
+        //   console.log(id);
           const data = await eventBookedSchema.findById({id});
-          console.log(data);
+        //   console.log(data);
           if(!data){
             return res.status(409).json({message:"this event is already deleted",data});
           }

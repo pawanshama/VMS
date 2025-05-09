@@ -3,35 +3,35 @@ import { useEventStore } from '../store/useEventStore';
 
 const CreatedEvent = () => {
 
-  const {createdEvent, creatingEventByStaff} = useEventStore();
-  const us="";
-    const Registered = [
-        {
-          name: "Innovation Week Kickoff",
-          description: "A launch event featuring keynote speakers and team challenges focused on innovation.",
-          venue: "Main Auditorium, HQ Building",
-          startDate: "May 15, 2025",
-          endDate: "May 15, 2025"
-        },
-        {
-          name: "Annual Sales Summit",
-          description: "A three-day summit to review performance, strategy, and upcoming targets.",
-          venue: "Conference Room A & B, Tower 3",
-          startDate: "June 1, 2025",
-          endDate: "June 3, 2025"
-        },
-        {
-          name: "Wellness Fair",
-          description: "A company-wide health and wellness event including yoga sessions, nutrition talks, and medical checkups.",
-          venue: "Outdoor Pavilion & Cafeteria Lawn",
-          startDate: "July 10, 2025",
-          endDate: "July 10, 2025"
-        }
-      ];
+  const {createdEvent, creatingEventByStaff,isCreatingEvent} = useEventStore();
+    // const Registered = [
+    //     {
+    //       name: "Innovation Week Kickoff",
+    //       description: "A launch event featuring keynote speakers and team challenges focused on innovation.",
+    //       venue: "Main Auditorium, HQ Building",
+    //       startDate: "May 15, 2025",
+    //       endDate: "May 15, 2025"
+    //     },
+    //     {
+    //       name: "Annual Sales Summit",
+    //       description: "A three-day summit to review performance, strategy, and upcoming targets.",
+    //       venue: "Conference Room A & B, Tower 3",
+    //       startDate: "June 1, 2025",
+    //       endDate: "June 3, 2025"
+    //     },
+    //     {
+    //       name: "Wellness Fair",
+    //       description: "A company-wide health and wellness event including yoga sessions, nutrition talks, and medical checkups.",
+    //       venue: "Outdoor Pavilion & Cafeteria Lawn",
+    //       startDate: "July 10, 2025",
+    //       endDate: "July 10, 2025"
+    //     }
+    //   ];
       
       useEffect(()=>{
           createdEvent();
-      },[us])
+      },[isCreatingEvent])
+      // console.log(creatingEventByStaff);
 
       //deletion of event from the list. so that new events can be seen on the top.
       const handleDelete = (indexToRemove) => {
@@ -46,7 +46,7 @@ const CreatedEvent = () => {
             
     {/* <div className='mt-16'> */}
        {
-           Registered.map((el,index)=>{
+           creatingEventByStaff.map((el,index)=>{
                return (
                    <div key={index} className="bg-white shadow-md rounded-lg p-5 border border-gray-200">
                     <h2 className="text-xl font-semibold

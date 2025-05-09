@@ -53,7 +53,7 @@ export const useEventStore = create((set,get)=>({
   createdEvent : async () => {
        try{
          const email = localStorage.getItem("email");   
-         const response = await axiosInstance.post("/event/fetch",email)
+         const response = await axiosInstance.post("/event/fetches/now",{email})
          console.log(response.data);
          set({creatingEventByStaff:response.data.data});
        }
