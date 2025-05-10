@@ -14,22 +14,23 @@ export const useEventStore = create((set,get)=>({
   registeredEvent:async()=>{
     try{
         const email = localStorage.getItem("email");
-        console.log(email);
+        // console.log(email);
         const user = await axiosInstance.post("/new/fetch/event",{email});
         console.log(user.data.data);
         set({registered:user.data.data});
     }
     catch(error){
       // console.log("error in registered event:", error);
+      set({registered:null})
       toast.error(error.response.data.message);
     }
   },
 
-  deleteRegistered:async(id)=>{
+  deleteRegistered : async(id)=>{
     try {
-      const res = await axiosInstance.delete(`/new/delete/:${id}`);
+      const res = await axiosInstance.delete(`/new/delete/${id}`);
       // set({ authUser: res.data });
-      registeredEvent();
+      // registeredEvent();
       toast.success("Event Deleted");
     } catch (error) {
       console.log("error in deletion:", error);
@@ -64,7 +65,7 @@ export const useEventStore = create((set,get)=>({
 
   deleteEvent: async (id) => {
     try {
-      const res = await axiosInstance.delete(`/new/delete/:${id}`);
+      const res = await axiosInstance.delete(`/event/delete/${id}`);
       // set({ authUser: res.data });
       // registeredEvent();
       toast.success("deleted successfully");

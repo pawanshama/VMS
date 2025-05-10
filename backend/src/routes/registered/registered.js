@@ -39,7 +39,7 @@ app.post('/fetch/event',async(req, res)=> {
         const data = await eventBookedSchema.find({email});
         // console.log(data);
         if(data.length===0){
-            return res.status(404).json({message:"No event is live",data});
+            return res.status(404).json({message:"no event registered",data});
         }
        return res.status(200).json({message:"Events needs to be updated",data})
     }catch(err){
@@ -49,15 +49,18 @@ app.post('/fetch/event',async(req, res)=> {
 //this is for user deleting registered event in his history.
 app.delete('/delete/:id',async(req,res)=>{
      try{
-          const {id} = req.params.id;
-        //   console.log(id);
-          const data = await eventBookedSchema.findById({id});
+          const {id} = req.params;
+          console.log(id);
+          const data = await eventBookedSchema.findById(id);
         //   console.log(data);
           if(!data){
             return res.status(409).json({message:"this event is already deleted",data});
           }
-          const ds = await eventBookedSchema.deleteOne({id});
-          console.log(ds);
+          const ds = await eventBookedSchema.findByIdAndDelete(data);
+          if(!ds){
+            return res.status(404).json({messsage:`error while deletion`});
+          }
+        //   console.log(ds);
           return res.status(201).json({message:"event deleted successfully"});
      }
      catch(err){

@@ -3,7 +3,8 @@ import { useEventStore } from '../store/useEventStore';
 
 const CreatedEvent = () => {
 
-  const {createdEvent, creatingEventByStaff,isCreatingEvent} = useEventStore();
+  const {createdEvent, creatingEventByStaff,deleteEvent} = useEventStore();
+  const us="";
     // const Registered = [
     //     {
     //       name: "Innovation Week Kickoff",
@@ -30,12 +31,13 @@ const CreatedEvent = () => {
       
       useEffect(()=>{
           createdEvent();
-      },[isCreatingEvent])
-      // console.log(creatingEventByStaff);
+      },[us])
+      console.log(creatingEventByStaff);
 
       //deletion of event from the list. so that new events can be seen on the top.
       const handleDelete = (indexToRemove) => {
-          
+        deleteEvent(indexToRemove);
+        console.log(us);
       };
       
   return (
@@ -46,11 +48,11 @@ const CreatedEvent = () => {
             
     {/* <div className='mt-16'> */}
        {
-           creatingEventByStaff.map((el,index)=>{
+           creatingEventByStaff && creatingEventByStaff.map((el,index)=>{
                return (
                    <div key={index} className="bg-white shadow-md rounded-lg p-5 border border-gray-200">
                     <h2 className="text-xl font-semibold
-                     text-gray-800 mb-2">{el.name}</h2>
+                     text-gray-800 mb-2">{el.eventName}</h2>
                     <p className="text-gray-600
                      mb-3">{el.description}</p>
                     <div className="text-sm text-gray-500 mb-1">

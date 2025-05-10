@@ -4,7 +4,8 @@ import bcrypt from "bcryptjs";
 import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
-  const { fullName, email, password, email1,password1 } = req.body;
+  const { fullName, email, password, email1 } = req.body;
+  console.log(req.body);
   
   try {
     if (!fullName || !email || !password) {
@@ -15,20 +16,20 @@ export const signup = async (req, res) => {
       return res.status(400).json({ message: "Password must be at least 6 characters" });
     }
 
-    const user = await User.findOne({ email1 });
+    const user = await User.find({ email1 });
 
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    if(user.responsiblity===false){
-      return res.status(400).json({message:"Not authorised"})
-    }
+    // if(user.responsiblity===false){
+    //   return res.status(400).json({message:"Not authorised"})
+    // }
 
-    const isPasswordCorrect = await bcrypt.compare(password1, user.password);
-    if (!isPasswordCorrect) {
-      return res.status(400).json({ message: "Invalid credentials" });
-    }
+    // const isPasswordCorrect = await bcrypt.compare(password1, user.password);
+    // if (!isPasswordCorrect) {
+    //   return res.status(400).json({ message: "Invalid credentials" });
+    // }
 
     const us = await User.findOne({email});
 
@@ -73,18 +74,18 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials",user });
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials", isPasswordCorrect });
     }
 
     generateToken(user._id, res);
     console.log(user);
     return res.status(200).json({
-      user
+      message:`user login`,user
     });
   } catch (error) {
     console.log("Error in login controller", error.message);

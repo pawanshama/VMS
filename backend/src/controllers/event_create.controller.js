@@ -127,14 +127,14 @@ export const userSpecificEvent = async(req,res)=>{
 
 export const delete_event = async(req,res)=>{
     try{
-         const {id} = req.params.id;
+         const {id} = req.params;
          console.log(id);
-         const data = await eventSchema.findById({id});
+         const data = await eventSchema.findById(id);
          console.log(data);
          if(!data){
            return res.status(409).json({message:"this event is already deleted",data});
          }
-         const del = await eventSchema.deleteOne({id});
+         const del = await eventSchema.findOneAndDelete(data);
          if(!del){
             return res.status(400).json({message:"problem occured in deletion"})
          }

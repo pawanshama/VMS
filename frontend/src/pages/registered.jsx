@@ -37,7 +37,7 @@ const Registered = () => {
         registeredEvent();
     },[us])
 
-    // console.log(registered);
+    console.log(registered);
 
       //deletion of event from the list. so that new events can be seen on the top.
       const handleDelete = (indexToRemove) => {

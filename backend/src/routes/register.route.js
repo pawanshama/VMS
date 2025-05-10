@@ -5,6 +5,8 @@ import { creating,user2staff, staff2user, new_events, delete_event, userSpecific
 const app = express.Router();
 //This is creation of an event 
 app.post('/post',protectRoute,creating);
+
+//fetch created events
 app.post('/fetches/now',protectRoute,userSpecificEvent);
 
 //this is admin making users staff like himself
