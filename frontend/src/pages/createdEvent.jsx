@@ -45,8 +45,6 @@ const CreatedEvent = () => {
       <div className="flex items-center justify-center pt-20 px-4">
         <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-full">
           <div className="flex flex-col h-full rounded-lg overflow-hidden">
-            
-    {/* <div className='mt-16'> */}
        {
            creatingEventByStaff && creatingEventByStaff.map((el,index)=>{
                return (
