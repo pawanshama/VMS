@@ -34,5 +34,6 @@ npm run build
 ### Start the app
 
 ```shell
-npm start
+npm run dev
 ```
+vite + react
